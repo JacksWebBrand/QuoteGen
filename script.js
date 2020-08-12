@@ -4,24 +4,36 @@ const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
+const errorMsg = document.getElementById('error-message');
+i = 1;
 
-// Show loading
-function loading() {
+function showLoadingSpinner() {
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete() {
+
+function hideLoadingSpinner() {
     if (!loader.hidden) {
         quoteContainer.hidden = false;
         loader.hidden = true;
     }
 }
 
+function errorHandle() {
+    if (i < 5) {
+        getQuote(); //initialise this when the api calls are working (currently getting 429)
+        console.log('whoops, no quote received by the api');
+        return(i++);
+        } else
+        console.log('The api has rejected our requests too many times - please wait and try again later, since the api will only handle so-many requests per hour');
+        errorMsg.innerText = 'The api has rejected our requests too many times :( Please wait and try again later. The api will only handle so-many requests per hour';
+        loader.hidden = true;
+}
+
 // Get quote from api
 async function getQuote() {
-    loading();
+    showLoadingSpinner();
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
     try {
@@ -40,12 +52,9 @@ async function getQuote() {
             quoteText.classList.remove('long-quote');
         }
         quoteText.innerText = data.quoteText;
-        
-        // Stop loader, show quote
-        complete()
+        hideLoadingSpinner();
     } catch (error) {
-        // getQuote(); //initialise this when the api calls are working (currently getting 429)
-        console.log('whoops, no quote', error);
+        errorHandle()
     }
 }
 
