@@ -13,9 +13,9 @@ async function getQuote() {
         const data = await response.json();
         // If author is blank
         if (data.quoteAuthor === '') {
-            authorText.innerText = 'Unknown';
+            authorText.innerText = '~ Unknown';
         } else {
-            authorText.innerText = data.quoteAuthor;
+            authorText.innerText = ('~ ' + data.quoteAuthor);
         }
         // Reduce font size for longer quotes
         if (data.quoteText.length > 120) {
@@ -23,7 +23,7 @@ async function getQuote() {
         } else {
             quoteText.classList.remove('long-quote');
         }
-        quoteText.innerText = ('~ ' + data.quoteText);
+        quoteText.innerText = data.quoteText;
     } catch (error) {
         getQuote(); //initialise this when the api calls are working (currently getting 429)
         console.log('whoops, no quote', error);
