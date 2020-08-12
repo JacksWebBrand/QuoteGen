@@ -23,7 +23,7 @@ async function getQuote() {
         } else {
             quoteText.classList.remove('long-quote');
         }
-        quoteText.innerText = data.quoteText;
+        quoteText.innerText = ('~ ' + data.quoteText);
     } catch (error) {
         getQuote(); //initialise this when the api calls are working (currently getting 429)
         console.log('whoops, no quote', error);
