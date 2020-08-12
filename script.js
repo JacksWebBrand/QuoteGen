@@ -7,7 +7,7 @@ const newQuoteBtn = document.getElementById('new-quote');
 // Get quote from api
 async function getQuote() {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-    const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=jp&format=json';
+    const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
     try {
         const response = await fetch(proxyUrl + apiUrl);
         const data = await response.json();
@@ -25,7 +25,7 @@ async function getQuote() {
         }
         quoteText.innerText = data.quoteText;
     } catch (error) {
-        // getQuote(); //initialise this when the api calls are working (currently getting 429)
+        getQuote(); //initialise this when the api calls are working (currently getting 429)
         console.log('whoops, no quote', error);
     }
 }
